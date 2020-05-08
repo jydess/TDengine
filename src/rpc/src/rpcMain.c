@@ -936,8 +936,10 @@ static void rpcProcessIncomingMsg(SRpcConn *pConn, SRpcHead *pHead) {
 
     if (pHead->code == TSDB_CODE_REDIRECT) { 
       pContext->redirect++;
-      if (pContext->redirect > TSDB_MAX_REPLICA) 
+      if (pContext->redirect > TSDB_MAX_REPLICA) {
         pHead->code = TSDB_CODE_NETWORK_UNAVAIL; 
+        tWarn("%s %p, too many redirects, quit", pRpc->label, pConn);
+      }
     }
 
     if (pHead->code == TSDB_CODE_REDIRECT) {
