@@ -176,6 +176,7 @@ typedef struct SQInfo {
   SQueryRuntimeEnv runtimeEnv;
   int32_t          groupIndex;
   int32_t          offset;            // offset in group result set of subgroup, todo refactor
+  SArray*          arrTableIdInfo;
   
   T_REF_DECLARE()
   /*

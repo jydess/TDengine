@@ -1461,10 +1461,11 @@ bool tscShouldFreeHeatBeat(SSqlObj* pHb) {
 }
 
 /*
- * the following three kinds of SqlObj should not be freed
+ * the following four kinds of SqlObj should not be freed
  * 1. SqlObj for stream computing
  * 2. main SqlObj
  * 3. heartbeat SqlObj
+ * 4. SqlObj for subscription
  *
  * If res code is error and SqlObj does not belong to above types, it should be
  * automatically freed for async query, ignoring that connection should be kept.
@@ -1477,7 +1478,7 @@ bool tscShouldBeFreed(SSqlObj* pSql) {
   }
 
   STscObj* pTscObj = pSql->pTscObj;
-  if (pSql->pStream != NULL || pTscObj->pHb == pSql || pTscObj->pSql == pSql) {
+  if (pSql->pStream != NULL || pTscObj->pHb == pSql || pTscObj->pSql == pSql || pSql->pSubscription != NULL) {
     return false;
   }
 
